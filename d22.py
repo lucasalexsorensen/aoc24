@@ -1,8 +1,6 @@
-from itertools import product
+from collections import defaultdict
 
-import numba as nb
 import numpy as np
-from tqdm.auto import tqdm
 
 with open("data/d22.txt") as f:
     nums = [int(line) for line in f.readlines()]
@@ -42,52 +40,13 @@ for i, num in enumerate(nums):
         num = next_num
 
 
-# yoinked from stackoverflow
-@nb.jit
-def find_kmp(seq, subseq):
-    n = len(seq)
-    m = len(subseq)
-    # : compute offsets
-    offsets = [0] * m
-    j = 1
-    k = 0
-    while j < m:
-        if subseq[j] == subseq[k]:
-            k += 1
-            offsets[j] = k
-            j += 1
-        else:
-            if k != 0:
-                k = offsets[k - 1]
-            else:
-                offsets[j] = 0
-                j += 1
-    # : find matches
-    i = j = 0
-    while i < n:
-        if seq[i] == subseq[j]:
-            i += 1
-            j += 1
-        if j == m:
-            yield i - j
-            j = offsets[j - 1]
-        elif i < n and seq[i] != subseq[j]:
-            if j != 0:
-                j = offsets[j - 1]
-            else:
-                i += 1
-
-
-highscore = 0
-changes_to_try = list(
-    product(range(-10, 10), range(-10, 10), range(-10, 10), range(-10, 10))
-)
-for changes in tqdm(changes_to_try):
-    result = 0
-    for s, diff in zip(series, diffs):
-        idx = next(find_kmp(diff, changes), None)
-        if idx is None:
+c = defaultdict(int)
+for diff, s in zip(diffs, series):
+    seen = set()
+    for i in range(4, 2000):
+        window = tuple(diff[i - 4 : i])
+        if window in seen:
             continue
-        result += s[idx + 3]
-    highscore = max(highscore, result)
-print("p2", highscore)
+        c[window] += int(s[i - 1])
+        seen.add(window)
+print("p2", max(c.values()))
