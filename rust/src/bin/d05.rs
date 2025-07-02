@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 use std::collections::HashMap;
 
 fn main() -> Result<()> {
-    let input = include_str!("../../../data/d04.txt");
+    let input = include_str!("../../../data/d05.txt");
 
     let parsed_input = parse_input(input)?;
 
@@ -83,14 +83,6 @@ fn part_one(parsed_input: &ParsedInput) -> Result<usize> {
             seq[mid]
         })
         .sum();
-
-    for seq in parsed_input.sequences.iter() {
-        println!(
-            "{:?} = {}",
-            seq,
-            is_sequence_valid(seq, &parsed_input.rules)
-        );
-    }
 
     Ok(result)
 }
