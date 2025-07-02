@@ -1,5 +1,6 @@
 {
     "github.copilot.enable": {
         "python": false,
+        "rust": false
     }
 }
