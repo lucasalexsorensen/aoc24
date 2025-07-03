@@ -15,6 +15,12 @@ pub struct Grid<T> {
 }
 
 impl<T: Copy> Grid<T> {
+    pub fn iter(&self) -> impl Iterator<Item = (Point, T)> {
+        (0..self.height).flat_map(move |row| {
+            (0..self.width).map(move |col| (Point::new(row, col), self[Point::new(row, col)]))
+        })
+    }
+
     pub fn find_first(&self, predicate: impl Fn(&T) -> bool) -> Option<Point> {
         for row in 0..self.height {
             for col in 0..self.width {

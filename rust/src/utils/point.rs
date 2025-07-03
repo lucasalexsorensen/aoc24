@@ -60,3 +60,14 @@ impl std::ops::Sub for Point {
         Point { row, col }
     }
 }
+
+impl std::ops::Mul<i32> for Point {
+    type Output = Point;
+
+    fn mul(self, other: i32) -> Point {
+        Point {
+            row: self.row * other,
+            col: self.col * other,
+        }
+    }
+}
