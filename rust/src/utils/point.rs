@@ -25,6 +25,20 @@ impl Point {
             col: col as i32,
         }
     }
+
+    pub fn rotate_cw(&self) -> Self {
+        Self {
+            row: self.col,
+            col: -self.row,
+        }
+    }
+
+    pub fn rotate_ccw(&self) -> Self {
+        Self {
+            row: -self.col,
+            col: self.row,
+        }
+    }
 }
 
 impl std::ops::Add for Point {

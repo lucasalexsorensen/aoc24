@@ -15,6 +15,27 @@ pub struct Grid<T> {
 }
 
 impl<T: Copy> Grid<T> {
+    pub fn find_first(&self, predicate: impl Fn(&T) -> bool) -> Option<Point> {
+        for row in 0..self.height {
+            for col in 0..self.width {
+                let point = Point::new(row, col);
+                if predicate(&self[point]) {
+                    return Some(point);
+                }
+            }
+        }
+        None
+    }
+
+    pub fn get(&self, point: Point) -> Option<T> {
+        if !(0..self.height).contains(&(point.row as usize))
+            || !(0..self.width).contains(&(point.col as usize))
+        {
+            return None;
+        }
+        Some(self.data[self.width * point.row as usize + point.col as usize])
+    }
+
     pub fn get_column(&self, col: usize) -> Vec<T> {
         (0..self.height)
             .map(|row| self[Point::new(row, col)])

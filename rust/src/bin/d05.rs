@@ -88,7 +88,7 @@ fn part_one(parsed_input: &ParsedInput) -> Result<usize> {
 }
 
 fn part_two(parsed_input: &ParsedInput) -> Result<usize> {
-    let mut invalid_sequences = parsed_input
+    let invalid_sequences = parsed_input
         .sequences
         .iter()
         .filter(|seq| !is_sequence_valid(seq, &parsed_input.rules))
